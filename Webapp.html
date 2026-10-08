@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="it" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Veli.xstudio • Digital Solutions & Review Cards</title>
+  
+  <!-- Fonts: Space Grotesk & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"Space Grotesk"', 'monospace'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+          },
+          colors: {
+            luxury: {
+              black: '#08090C',
+              card: '#0E1017',
+              inner: '#131620',
+              border: 'rgba(224, 178, 83, 0.22)',
+            },
+            gold: {
+              200: '#FAF0D1',
+              300: '#F5E2A8',
+              400: '#ECC974',
+              500: '#E0B253',
+              600: '#C79636',
+            }
+          },
+          animation: {
+            'glow-slow': 'pulseGlow 5s infinite ease-in-out',
+            'radar-pulse': 'radar 2.4s cubic-bezier(0, 0, 0.2, 1) infinite',
+          },
+          keyframes: {
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.3', transform: 'scale(1)' },
+              '50%': { opacity: '0.65', transform: 'scale(1.06)' },
+            },
+            radar: {
+              '0%': { transform: 'scale(0.95)', opacity: '0.85' },
+              '70%': { transform: 'scale(1.75)', opacity: '0' },
+              '100%': { transform: 'scale(1.75)', opacity: '0' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* In-App browser touch defaults */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #08090C;
+      color: #E6E8EE;
+      overflow-x: hidden;
+    }
+
+    /* Subtle circuit background */
+    .tech-grid-bg {
+      background-image: 
+        radial-gradient(rgba(224, 178, 83, 0.09) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(8, 9, 12, 0.95), rgba(8, 9, 12, 0.99));
+      background-size: 26px 26px, 100% 100%;
+    }
+
+    /* Luxury Glass Panel */
+    .luxury-glass {
+      background: linear-gradient(145deg, rgba(17, 20, 29, 0.75) 0%, rgba(10, 12, 17, 0.88) 100%);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(224, 178, 83, 0.18);
+    }
+
+    .luxury-glass:hover {
+      border-color: rgba(224, 178, 83, 0.35);
+    }
+
+    /* Accordion collapse mechanics with butter-smooth transition */
+    .accordion-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    }
+
+    .accordion-content.expanded {
+      opacity: 1;
+      transition: max-height 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+    }
+
+    /* Gold Metallic Rim on Avatar */
+    .gold-rim {
+      position: relative;
+    }
+    .gold-rim::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 9999px;
+      padding: 2px;
+      background: linear-gradient(135deg, #F5E2A8, #755113, #E0B253, #221703);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Subtle touch feedback */
+    .touch-press {
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+    .touch-press:active {
+      transform: scale(0.975);
+    }
+  </style>
+</head>
+
+<body class="tech-grid-bg min-h-screen antialiased selection:bg-gold-500 selection:text-luxury-black relative flex flex-col items-center">
+
+  <!-- Ambient Gold & Cyber Lighting -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[420px] h-[340px] bg-gold-500/12 rounded-full blur-[110px] animate-glow-slow"></div>
+    <div class="absolute top-[40%] -right-24 w-80 h-80 bg-gold-600/10 rounded-full blur-[130px]"></div>
+    <div class="absolute bottom-10 -left-20 w-80 h-80 bg-indigo-950/20 rounded-full blur-[120px]"></div>
+  </div>
+
+  <!-- Mobile Wrapper -->
+  <main class="relative z-10 w-full max-w-[480px] px-3.5 py-4 pb-28 flex flex-col gap-4">
+
+    <!-- Top Status Bar -->
+    <div class="flex items-center justify-between px-1 pt-1 text-xs">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-luxury-card/90 border border-gold-500/25 shadow-lg shadow-black/50 backdrop-blur-md">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-radar-pulse absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+        </span>
+        <span class="text-neutral-200 text-[11px] font-semibold tracking-wide">Disponibili per progetti</span>
+      </div>
+      <button id="sharePageBtn" aria-label="Condividi profilo" class="w-8 h-8 rounded-xl luxury-glass flex items-center justify-center text-neutral-300 hover:text-gold-400 transition touch-press">
+        <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+      </button>
+    </div>
+
+    <!-- Profile & Brand Identity -->
+    <header class="flex flex-col items-center text-center pt-2">
+      <!-- Avatar with luxury rim -->
+      <div class="relative group mb-3">
+        <div class="absolute -inset-2 bg-gold-500/20 rounded-full blur-lg opacity-70 group-hover:opacity-100 transition duration-500"></div>
+        <div class="relative w-28 h-28 rounded-full overflow-hidden p-[2px] bg-luxury-black gold-rim shadow-2xl">
+          <img src="velix-logo.jpg" alt="Veli.xstudio Logo" class="w-full h-full object-cover rounded-full select-none">
+        </div>
+        <!-- Tech Verified Badge -->
+        <div class="absolute bottom-1 right-1 w-7 h-7 rounded-full bg-luxury-black border border-gold-500/70 flex items-center justify-center text-gold-400 shadow-lg">
+          <i data-lucide="badge-check" class="w-4 h-4 fill-gold-500/25 stroke-gold-400"></i>
+        </div>
+      </div>
+
+      <!-- Brand Title -->
+      <div class="flex items-center gap-1.5 justify-center mb-0.5">
+        <h1 class="font-display text-2xl font-extrabold tracking-tight text-white">Veli.xstudio</h1>
+        <i data-lucide="shield-check" class="w-4 h-4 text-gold-400"></i>
+      </div>
+
+      <!-- Bio Card -->
+      <div class="luxury-glass rounded-2xl p-4 w-full text-center mt-3 mb-4 space-y-2.5 border border-gold-500/20 shadow-xl">
+        <p class="text-[13px] font-semibold text-neutral-100 flex items-center justify-center flex-wrap gap-x-2 gap-y-1">
+          <span>🌐 Siti Web</span>
+          <span class="text-gold-500">•</span>
+          <span>📱 Social Media</span>
+          <span class="text-gold-500">•</span>
+          <span>⚙️ App Interne</span>
+          <span class="text-gold-500">•</span>
+          <span>🎨 Branding</span>
+        </p>
+        <div class="h-px w-20 bg-gradient-to-r from-transparent via-gold-500/40 to-transparent mx-auto"></div>
+        <p class="text-xs text-neutral-300 leading-relaxed font-normal">
+          Aiutiamo le attività a modernizzare la propria immagine e presenza digitale.<br>
+          <span class="text-gold-400 font-medium">Velix Studio — Digital solutions for modern businesses.</span>
+        </p>
+      </div>
+
+      <!-- Fast Actions Grid: IG, TikTok (Email rimossa) -->
+      <div class="grid grid-cols-2 gap-2 w-full">
+        <a href="https://instagram.com/veli.xstudio" target="_blank" class="col-span-1 luxury-glass rounded-xl py-2.5 px-2 flex items-center justify-center gap-1.5 text-xs font-semibold text-pink-400 hover:text-pink-300 transition touch-press">
+          <i data-lucide="instagram" class="w-4 h-4"></i>
+          <span>Instagram</span>
+        </a>
+        <a href="https://tiktok.com/@veli.xstudio" target="_blank" class="col-span-1 luxury-glass rounded-xl py-2.5 px-2 flex items-center justify-center gap-1.5 text-xs font-semibold text-neutral-200 hover:text-white transition touch-press">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg>
+          <span>TikTok</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Section Heading -->
+    <div class="flex items-center justify-between px-1 pt-3 pb-1">
+      <div class="flex items-center gap-2">
+        <span class="w-1.5 h-3.5 bg-gold-500 rounded-full"></span>
+        <h2 class="text-xs font-mono font-bold tracking-wider uppercase text-neutral-300">Servizi & Soluzioni Digitali</h2>
+      </div>
+    </div>
+
+    <!-- SERVICES ACCORDION CONTAINER -->
+    <div class="flex flex-col gap-3" id="accordionList">
+
+      <!-- 1. Sviluppo Siti Web & E-Commerce -->
+      <article class="accordion-card luxury-glass rounded-2xl overflow-hidden border border-gold-500/20 transition-all duration-300">
+        <button type="button" class="accordion-trigger w-full p-3.5 flex items-center justify-between text-left cursor-pointer hover:bg-white/[0.03] transition touch-press select-none">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-11 h-11 rounded-xl bg-luxury-inner border border-gold-500/30 text-gold-400 flex items-center justify-center shrink-0 shadow-md">
+              <i data-lucide="globe" class="w-5 h-5"></i>
+            </div>
+            <div class="min-w-0">
+              <h3 class="text-sm font-bold text-white tracking-tight truncate">Sviluppo Siti Web & E-Commerce</h3>
+              <p class="text-[11px] text-neutral-400 truncate">Siti personalizzati dalla A alla Z, no template copiati</p>
+            </div>
+          </div>
+          <div class="chevron-box w-7 h-7 rounded-lg bg-luxury-inner border border-gold-500/20 flex items-center justify-center text-gold-400 shrink-0 transition-transform duration-300">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </div>
+        </button>
+
+        <div class="accordion-content">
+          <div class="p-4 pt-1 border-t border-gold-500/15 space-y-3.5">
+            <!-- Video Placeholder -->
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-luxury-inner border border-gold-500/25 flex flex-col items-center justify-center text-center p-4 group">
+              <div class="absolute inset-0 bg-[radial-gradient(#E0B253_1px,transparent_1px)] [background-size:16px_16px] opacity-15"></div>
+              <video class="hidden w-full h-full object-cover" playsinline preload="none"></video>
+              <div class="relative z-10 flex flex-col items-center gap-2">
+                <div class="w-12 h-12 rounded-full bg-gold-500 text-luxury-black flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
+                  <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                </div>
+                <span class="text-[10px] text-gold-400/80 font-mono">Video Demo • In Arrivo</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-neutral-300 leading-relaxed">
+              Nessun template copiato. Studiamo e creiamo il tuo sito insieme a te, dalla A alla Z. Costruiamo piattaforme sartoriali, veloci e ottimizzate per convertire il traffico in clienti.
+            </p>
+
+            <div class="bg-luxury-black/60 rounded-xl p-3 border border-gold-500/15 space-y-2">
+              <ul class="space-y-2 text-xs text-neutral-300">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Assistenza post-pubblicazione:</strong> non abbandoniamo il cliente. Restiamo a disposizione per modifiche e aggiornamenti continui anche dopo il lancio.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Design su misura:</strong> navigazione perfetta su ogni dispositivo.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>SEO & Performance:</strong> struttura ottimizzata per Google e caricamenti fulminei.</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- IG CTA -->
+            <a href="https://instagram.com/veli.xstudio" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition touch-press">
+              <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+              <span>Scrivici su Instagram per il Sito Web</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. Social Media & Content Creation -->
+      <article class="accordion-card luxury-glass rounded-2xl overflow-hidden border border-gold-500/20 transition-all duration-300">
+        <button type="button" class="accordion-trigger w-full p-3.5 flex items-center justify-between text-left cursor-pointer hover:bg-white/[0.03] transition touch-press select-none">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-11 h-11 rounded-xl bg-luxury-inner border border-gold-500/30 text-pink-400 flex items-center justify-center shrink-0 shadow-md">
+              <i data-lucide="smartphone" class="w-5 h-5"></i>
+            </div>
+            <div class="min-w-0">
+              <h3 class="text-sm font-bold text-white tracking-tight truncate">Social Media & Video Verticali</h3>
+              <p class="text-[11px] text-neutral-400 truncate">Strategia e montaggio Reel a retention elevata</p>
+            </div>
+          </div>
+          <div class="chevron-box w-7 h-7 rounded-lg bg-luxury-inner border border-gold-500/20 flex items-center justify-center text-gold-400 shrink-0 transition-transform duration-300">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </div>
+        </button>
+
+        <div class="accordion-content">
+          <div class="p-4 pt-1 border-t border-gold-500/15 space-y-3.5">
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-luxury-inner border border-gold-500/25 flex flex-col items-center justify-center text-center p-4 group">
+              <div class="absolute inset-0 bg-[radial-gradient(#E0B253_1px,transparent_1px)] [background-size:16px_16px] opacity-15"></div>
+              <video class="hidden w-full h-full object-cover" playsinline preload="none"></video>
+              <div class="relative z-10 flex flex-col items-center gap-2">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
+                  <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                </div>
+                <span class="text-[10px] text-pink-300/80 font-mono">Showreel Video • In Arrivo</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-neutral-300 leading-relaxed">
+              I contenuti devono catturare l'utente nei primissimi 3 secondi. Creiamo una linea editoriale mirata a far crescere la fiducia della tua clientela e a convertire follower distratti in contatti caldi.
+            </p>
+
+            <div class="bg-luxury-black/60 rounded-xl p-3 border border-gold-500/15 space-y-2">
+              <ul class="space-y-1.5 text-xs text-neutral-300">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Editing Video Top-Quality:</strong> sottotitoli, animazioni e sound design.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Scripting & Ganci Psicologici:</strong> per massimizzare la permanenza.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Piano Editoriale Strategico:</strong> calendario chiaro e pianificato.</span>
+                </li>
+              </ul>
+            </div>
+
+            <a href="https://instagram.com/veli.xstudio" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition touch-press">
+              <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+              <span>Scrivici su Instagram per i Social</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. App Interne & Automazioni -->
+      <article class="accordion-card luxury-glass rounded-2xl overflow-hidden border border-gold-500/20 transition-all duration-300">
+        <button type="button" class="accordion-trigger w-full p-3.5 flex items-center justify-between text-left cursor-pointer hover:bg-white/[0.03] transition touch-press select-none">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-11 h-11 rounded-xl bg-luxury-inner border border-gold-500/30 text-cyan-400 flex items-center justify-center shrink-0 shadow-md">
+              <i data-lucide="cpu" class="w-5 h-5"></i>
+            </div>
+            <div class="min-w-0">
+              <h3 class="text-sm font-bold text-white tracking-tight truncate">Web App Interne & Automazioni</h3>
+              <p class="text-[11px] text-neutral-400 truncate">CRM, portali e ottimizzazione processi aziendali</p>
+            </div>
+          </div>
+          <div class="chevron-box w-7 h-7 rounded-lg bg-luxury-inner border border-gold-500/20 flex items-center justify-center text-gold-400 shrink-0 transition-transform duration-300">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </div>
+        </button>
+
+        <div class="accordion-content">
+          <div class="p-4 pt-1 border-t border-gold-500/15 space-y-3.5">
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-luxury-inner border border-gold-500/25 flex flex-col items-center justify-center text-center p-4 group">
+              <div class="absolute inset-0 bg-[radial-gradient(#E0B253_1px,transparent_1px)] [background-size:16px_16px] opacity-15"></div>
+              <video class="hidden w-full h-full object-cover" playsinline preload="none"></video>
+              <div class="relative z-10 flex flex-col items-center gap-2">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-luxury-black flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
+                  <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                </div>
+                <span class="text-[10px] text-cyan-300/80 font-mono">Demo Software • In Arrivo</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-neutral-300 leading-relaxed">
+              Dimentica i fogli di calcolo disordinati. Sviluppiamo web app proprietarie su misura per automatizzare ordini, preventivi e comunicazioni, ottimizzando in modo specifico i processi della tua azienda.
+            </p>
+
+            <div class="bg-luxury-black/60 rounded-xl p-3 border border-gold-500/15 space-y-2">
+              <ul class="space-y-1.5 text-xs text-neutral-300">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Gestione centralizzata:</strong> una dashboard progettata unicamente per le tue esigenze operative.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Automazione flussi di lavoro:</strong> riduci drasticamente gli errori manuali e risparmia tempo.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Integrazioni Custom:</strong> collegamento con database, email e sistemi di notifica automatica.</span>
+                </li>
+              </ul>
+            </div>
+
+            <a href="https://instagram.com/veli.xstudio" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition touch-press">
+              <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+              <span>Scrivici su Instagram per le App</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. Branding & Identità Visiva -->
+      <article class="accordion-card luxury-glass rounded-2xl overflow-hidden border border-gold-500/20 transition-all duration-300">
+        <button type="button" class="accordion-trigger w-full p-3.5 flex items-center justify-between text-left cursor-pointer hover:bg-white/[0.03] transition touch-press select-none">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-11 h-11 rounded-xl bg-luxury-inner border border-gold-500/30 text-amber-400 flex items-center justify-center shrink-0 shadow-md">
+              <i data-lucide="palette" class="w-5 h-5"></i>
+            </div>
+            <div class="min-w-0">
+              <h3 class="text-sm font-bold text-white tracking-tight truncate">Branding & Identità Visiva</h3>
+              <p class="text-[11px] text-neutral-400 truncate">Logo system, palette e kit social coordinato</p>
+            </div>
+          </div>
+          <div class="chevron-box w-7 h-7 rounded-lg bg-luxury-inner border border-gold-500/20 flex items-center justify-center text-gold-400 shrink-0 transition-transform duration-300">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </div>
+        </button>
+
+        <div class="accordion-content">
+          <div class="p-4 pt-1 border-t border-gold-500/15 space-y-3.5">
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-luxury-inner border border-gold-500/25 flex flex-col items-center justify-center text-center p-4 group">
+              <div class="absolute inset-0 bg-[radial-gradient(#E0B253_1px,transparent_1px)] [background-size:16px_16px] opacity-15"></div>
+              <video class="hidden w-full h-full object-cover" playsinline preload="none"></video>
+              <div class="relative z-10 flex flex-col items-center gap-2">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-luxury-black flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
+                  <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                </div>
+                <span class="text-[10px] text-amber-300/80 font-mono">Brand Showcase • In Arrivo</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-neutral-300 leading-relaxed">
+              Realizziamo identità visive solide e memorabili per far percepire la tua attività come punto di riferimento di alto livello nel tuo settore.
+            </p>
+
+            <div class="bg-luxury-black/60 rounded-xl p-3 border border-gold-500/15 space-y-2">
+              <ul class="space-y-1.5 text-xs text-neutral-300">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Logo System Vettoriale:</strong> versioni primaria, secondaria, orizzontale e monogramma.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Guida Ufficiale di Stile:</strong> gerarchia font e colori.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Kit Grafico Social:</strong> immagini profilo e copertine.</span>
+                </li>
+              </ul>
+            </div>
+
+            <a href="https://instagram.com/veli.xstudio" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition touch-press">
+              <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+              <span>Scrivici su Instagram per il Brand</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. Google Review Card -->
+      <article class="accordion-card relative luxury-glass rounded-2xl overflow-hidden border-2 border-gold-500/60 shadow-xl shadow-gold-500/10 transition-all duration-300">
+        <!-- Glowing Best Seller Ribbon -->
+        <div class="absolute top-0 right-0 z-10 bg-gradient-to-r from-gold-600 via-gold-500 to-amber-400 text-luxury-black font-mono font-black text-[10px] px-3 py-1 rounded-bl-xl tracking-wider uppercase shadow-md flex items-center gap-1">
+          <i data-lucide="flame" class="w-3 h-3 fill-luxury-black"></i>
+          <span>PIÙ RICHIESTO</span>
+        </div>
+
+        <button type="button" class="accordion-trigger w-full p-3.5 pt-4 flex items-center justify-between text-left cursor-pointer hover:bg-white/[0.03] transition touch-press select-none">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-11 h-11 rounded-xl bg-gold-500/20 border border-gold-400/50 text-gold-400 flex items-center justify-center shrink-0 shadow-lg">
+              <i data-lucide="star" class="w-5 h-5 fill-gold-400/30 stroke-gold-400"></i>
+            </div>
+            <div class="min-w-0 pr-16">
+              <h3 class="text-sm font-bold text-white tracking-tight truncate">Google Review Card (NFC + QR)</h3>
+              <p class="text-[11px] text-neutral-300 truncate">Recensioni 5 stelle con 1 tap dello smartphone</p>
+            </div>
+          </div>
+          <div class="chevron-box w-7 h-7 rounded-lg bg-luxury-inner border border-gold-500/30 flex items-center justify-center text-gold-400 shrink-0 transition-transform duration-300">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </div>
+        </button>
+
+        <div class="accordion-content">
+          <div class="p-4 pt-1 border-t border-gold-500/25 space-y-3.5 bg-luxury-black/40">
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-luxury-inner border border-gold-400/40 flex flex-col items-center justify-center text-center p-4 group">
+              <div class="absolute inset-0 bg-[radial-gradient(#E0B253_1px,transparent_1px)] [background-size:16px_16px] opacity-25"></div>
+              <video class="hidden w-full h-full object-cover" playsinline preload="none"></video>
+              <div class="relative z-10 flex flex-col items-center gap-2">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-gold-400 via-gold-500 to-amber-500 text-luxury-black flex items-center justify-center shadow-xl group-hover:scale-110 transition duration-300">
+                  <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                </div>
+                <span class="text-[10px] text-gold-300 font-mono">Video Dimostrativo "Tap NFC" • In Arrivo</span>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-gold-500/15 via-luxury-inner to-luxury-black rounded-xl p-3.5 border border-gold-500/30 space-y-1.5">
+              <div class="flex items-center gap-1.5 text-gold-300 font-bold text-xs">
+                <i data-lucide="zap" class="w-4 h-4 text-gold-400"></i>
+                <span>Come funziona il tocco magico:</span>
+              </div>
+              <p class="text-xs text-neutral-200 leading-relaxed">
+                Il cliente avvicina lo smartphone alla card o inquadra il QR code: in <strong>meno di 3 secondi</strong> si apre automaticamente la finestra ufficiale di Google Maps con <strong>5 stelle pronte per essere inviate</strong>.
+              </p>
+            </div>
+
+            <div class="bg-luxury-black/60 rounded-xl p-3 border border-gold-500/15 space-y-2">
+              <ul class="space-y-2 text-xs text-neutral-300">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>SEO Locale & Posizionamento:</strong> l'aumento costante di recensioni reali permette alla tua attività di scalare le ricerche locali su Google Maps.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Maggiore Fiducia:</strong> un numero elevato di recensioni a 5 stelle rassicura i nuovi clienti e incentiva le vendite o prenotazioni.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Configurazione Inclusa:</strong> ci occupiamo noi della programmazione NFC e dell'impostazione del link diretto, ricevi la card già pronta all'uso.</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- IG CTA -->
+            <a href="https://instagram.com/veli.xstudio" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition touch-press">
+              <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+              <span>Ordina le Card su Instagram</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center pt-4 pb-6 text-xs text-neutral-500 space-y-1.5">
+      <div class="flex items-center justify-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-gold-500"></span>
+        <span class="text-neutral-400 font-medium font-mono text-[11px]">Veli.xstudio Digital Systems</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-gold-500"></span>
+      </div>
+      <p class="text-[10px] text-neutral-600">
+        © 2026 Velix Studio — Tutti i diritti riservati.
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- Floating Instagram Quick Action Button -->
+  <aside class="fixed bottom-4 left-0 right-0 z-30 flex justify-center px-4 pointer-events-none">
+    <a href="https://instagram.com/veli.xstudio" target="_blank" class="pointer-events-auto flex items-center gap-2.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:brightness-110 text-white font-bold text-sm px-6 py-3.5 rounded-full shadow-2xl shadow-pink-600/35 border border-white/20 transition touch-press">
+      <span class="relative flex h-2.5 w-2.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-80"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+      </span>
+      <i data-lucide="instagram" class="w-4 h-4"></i>
+      <span>Scriveteci su Instagram per qualsiasi informazione</span>
+    </a>
+  </aside>
+
+  <!-- Toast Notification System -->
+  <div id="toastNotification" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 luxury-glass bg-luxury-card/95 border border-gold-500/40 px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 text-xs text-white transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none max-w-[90vw]">
+    <i data-lucide="info" class="w-4 h-4 text-gold-400 shrink-0"></i>
+    <span id="toastText">Notifica</span>
+  </div>
+
+  <script>
+    // Initialize Icons
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+    });
+
+    // Toast helper
+    const toast = document.getElementById('toastNotification');
+    const toastText = document.getElementById('toastText');
+    
+    function displayToast(msg, duration = 3000) {
+      toastText.textContent = msg;
+      toast.classList.remove('opacity-0', '-translate-y-20');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-20');
+      }, duration);
+    }
+
+    // Accordion Logic
+    const accordionCards = document.querySelectorAll('.accordion-card');
+
+    accordionCards.forEach((card) => {
+      const trigger = card.querySelector('.accordion-trigger');
+      const content = card.querySelector('.accordion-content');
+      const chevron = card.querySelector('.chevron-box');
+
+      trigger.addEventListener('click', () => {
+        const isExpanded = content.classList.contains('expanded');
+
+        // Close all other accordions
+        accordionCards.forEach((otherCard) => {
+          const otherContent = otherCard.querySelector('.accordion-content');
+          const otherChevron = otherCard.querySelector('.chevron-box');
+          if (otherContent && otherContent !== content) {
+            otherContent.style.maxHeight = null;
+            otherContent.classList.remove('expanded');
+            if (otherChevron) otherChevron.style.transform = 'rotate(0deg)';
+            otherCard.classList.remove('ring-1', 'ring-gold-500/40');
+          }
+        });
+
+        // Toggle clicked accordion
+        if (!isExpanded) {
+          content.classList.add('expanded');
+          content.style.maxHeight = content.scrollHeight + 'px';
+          chevron.style.transform = 'rotate(180deg)';
+          card.classList.add('ring-1', 'ring-gold-500/40');
+
+          // Smooth mobile scroll adjustment
+          setTimeout(() => {
+            const rect = card.getBoundingClientRect();
+            if (rect.top < 20 || rect.bottom > window.innerHeight) {
+              card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }, 200);
+        } else {
+          content.style.maxHeight = null;
+          content.classList.remove('expanded');
+          chevron.style.transform = 'rotate(0deg)';
+          card.classList.remove('ring-1', 'ring-gold-500/40');
+        }
+      });
+    });
+
+    // Share action
+    const sharePageBtn = document.getElementById('sharePageBtn');
+    if(sharePageBtn) {
+      sharePageBtn.addEventListener('click', () => {
+        const shareUrl = window.location.href;
+        if (navigator.share) {
+          navigator.share({
+            title: 'Veli.xstudio • Digital Solutions',
+            text: 'Esplora i servizi digitali di Velix Studio.',
+            url: shareUrl
+          }).catch(() => copyLink(shareUrl));
+        } else {
+          copyLink(shareUrl);
+        }
+      });
+    }
+
+    function copyLink(text) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        displayToast('Link del profilo copiato negli appunti! 📋');
+      } catch (e) {
+        displayToast('Copia link non supportata dal browser.');
+      }
+      document.body.removeChild(tempInput);
+    }
+  </script>
+</body>
+</html>
